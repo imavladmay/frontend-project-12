@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import PageNotFound from './PageNotFound';
 import SignInPage from './SignInPage';
-import routes from '../routes';
+import routes from '../routes/routes';
 
 const App = () => (
   <div className="d-flex flex-column h-100">
