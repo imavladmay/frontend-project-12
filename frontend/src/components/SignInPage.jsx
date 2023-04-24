@@ -1,5 +1,5 @@
 /* eslint-disable functional/no-expression-statements */
-import React from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
@@ -24,6 +24,7 @@ const signInSchema = (message) => yup.object().shape({
 });
 
 const SignInPage = () => {
+  const [authFailed, setAuthFailed] = useState(false);
   const auth = useAuth();
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -38,11 +39,13 @@ const SignInPage = () => {
       try {
         const response = await axios.post('/api/v1/login', { username: values.username, password: values.password });
         localStorage.setItem('userData', JSON.stringify(response.data));
+        setAuthFailed(false);
         auth.logIn();
         navigate(routes.mainPage());
       } catch (error) {
         setSubmitting(false);
         if (error.isAxiosError && error.response.status === 401) {
+          setAuthFailed(true);
           navigate(routes.signInPage());
           return;
         }
@@ -82,6 +85,7 @@ const SignInPage = () => {
                     id="username"
                     onChange={formik.handleChange}
                     value={formik.values.username}
+                    isInvalid={authFailed}
                   />
                   <Form.Label htmlFor="username">
                     {t('placeholders.nickname')}
@@ -97,10 +101,14 @@ const SignInPage = () => {
                     id="password"
                     onChange={formik.handleChange}
                     value={formik.values.password}
+                    isInvalid={authFailed}
                   />
                   <Form.Label htmlFor="password">
                     {t('placeholders.password')}
                   </Form.Label>
+                  <Form.Control.Feedback type="invalid" tooltip>
+                    {t('invalidData')}
+                  </Form.Control.Feedback>
                 </Form.Floating>
                 <Button
                   type="submit"
