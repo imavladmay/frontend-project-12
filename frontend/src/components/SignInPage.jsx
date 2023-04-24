@@ -1,4 +1,6 @@
+/* eslint-disable functional/no-expression-statements */
 import React from 'react';
+import axios from 'axios';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
 import {
@@ -10,8 +12,11 @@ import {
   Image,
   Form,
 } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import signInImg from '../assets/signIn.jpg';
+import routes from '../routes/routes';
+import { useAuth } from '../providers/AuthProvider';
 
 const signInSchema = (message) => yup.object().shape({
   username: yup.string().trim().required(message),
@@ -19,6 +24,8 @@ const signInSchema = (message) => yup.object().shape({
 });
 
 const SignInPage = () => {
+  const auth = useAuth();
+  const navigate = useNavigate();
   const { t } = useTranslation();
 
   const formik = useFormik({
@@ -27,6 +34,21 @@ const SignInPage = () => {
       password: '',
     },
     validationSchema: signInSchema(t('errors.required')),
+    onSubmit: async (values, { setSubmitting }) => {
+      try {
+        const response = await axios.post('/api/v1/login', { username: values.username, password: values.password });
+        localStorage.setItem('userData', JSON.stringify(response.data));
+        auth.logIn();
+        navigate(routes.mainPage());
+      } catch (error) {
+        setSubmitting(false);
+        if (error.isAxiosError && error.response.status === 401) {
+          navigate(routes.signInPage());
+          return;
+        }
+        console.log('Boom!');
+      }
+    },
   });
 
   return (
