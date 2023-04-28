@@ -7,14 +7,23 @@ import {
   Form,
 } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
-import { useFormik } from 'formik';
 import { useSelector, useDispatch } from 'react-redux';
+import { useFormik } from 'formik';
+import * as yup from 'yup';
+
 import fetchData from '../slices/fetchData';
+import { useWebSocket } from '../providers/WebSocketProvider';
+
+const chatSchema = yup.object().shape({
+  body: yup.string().required(),
+});
 
 const ChatPage = () => {
   const { t } = useTranslation();
 
-  const { token } = JSON.parse(localStorage.getItem('userData'));
+  const { addMessageApi } = useWebSocket();
+
+  const { token, username } = JSON.parse(localStorage.getItem('userData'));
   const dispatch = useDispatch();
 
   const { channels, currentChannelId } = useSelector((state) => state.channels);
@@ -27,7 +36,28 @@ const ChatPage = () => {
     initialValues: {
       body: '',
     },
-    onSubmit: () => console.log('Test'),
+    validationSchema: chatSchema,
+    onSubmit: (values, { setSubmitting }) => {
+      setSubmitting(true);
+      const { body } = values;
+
+      if (body) {
+        const newMessage = {
+          body,
+          channelId: currentChannelId,
+          id: uniqueId(),
+          username,
+        };
+
+        try {
+          addMessageApi(newMessage);
+          formik.resetForm();
+        } catch (error) {
+          setSubmitting(false);
+          console.log('error.addMessage');
+        }
+      }
+    },
   });
 
   useEffect(() => {

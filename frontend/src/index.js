@@ -1,5 +1,4 @@
-import './styles/styles.scss';
-import './index.css';
+import './index.scss';
 import initApp from './init';
 
 initApp();

@@ -36,6 +36,7 @@ const SignInPage = () => {
     validationSchema: signInSchema(t('errors.required')),
     onSubmit: async (values, { setSubmitting }) => {
       try {
+        setSubmitting(true);
         const response = await axios.post('/api/v1/login', { username: values.username, password: values.password });
         localStorage.setItem('userData', JSON.stringify(response.data));
         setAuthFailed(false);
