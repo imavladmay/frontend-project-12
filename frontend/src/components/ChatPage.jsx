@@ -45,7 +45,6 @@ const ChatPage = () => {
         const newMessage = {
           body,
           channelId: currentChannelId,
-          id: uniqueId(),
           username,
         };
 
