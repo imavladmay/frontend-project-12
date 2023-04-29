@@ -1,6 +1,6 @@
 export default {
   translation: {
-    pageNotFound: 'Страница не найдена',
+    notFound: 'Страница не найдена',
     redirect: 'Но вы можете перейти ',
     mainPage: 'на главную страницу',
     enter: 'Войти',

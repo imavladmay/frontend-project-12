@@ -1,4 +1,9 @@
-import './index.scss';
-import initApp from './init';
+import ReactDOM from 'react-dom/client';
+import init from './init';
 
-initApp();
+const app = async () => {
+  const root = ReactDOM.createRoot(document.getElementById('chat'));
+  root.render(await init());
+};
+
+app();

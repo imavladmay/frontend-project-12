@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import axios from 'axios';
-import * as yup from 'yup';
-import { useFormik } from 'formik';
+import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import {
   Container,
   Row,
@@ -11,22 +10,20 @@ import {
   Image,
   Form,
 } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
-import signInImg from '../assets/signIn.jpg';
-import routes from '../routes/routes';
-import { useAuth } from '../providers/AuthProvider';
+import { useFormik } from 'formik';
 
-const signInSchema = (message) => yup.object().shape({
-  username: yup.string().trim().required(message),
-  password: yup.string().trim().required(message),
-});
+import { useAuth } from '../providers/AuthProvider';
+import authApi from '../api/auth';
+import { routes } from '../utils/routes';
+import { signInSchema } from '../utils/validation';
+import signInImg from '../assets/signIn.jpg';
 
 const SignInPage = () => {
-  const [authFailed, setAuthFailed] = useState(false);
   const auth = useAuth();
   const navigate = useNavigate();
   const { t } = useTranslation();
+
+  const [authFailed, setAuthFailed] = useState(false);
 
   const formik = useFormik({
     initialValues: {
@@ -37,16 +34,16 @@ const SignInPage = () => {
     onSubmit: async (values, { setSubmitting }) => {
       try {
         setSubmitting(true);
-        const response = await axios.post('/api/v1/login', { username: values.username, password: values.password });
-        localStorage.setItem('userData', JSON.stringify(response.data));
+        const token = await authApi(values);
+        localStorage.setItem('userData', JSON.stringify(token));
         setAuthFailed(false);
         auth.logIn();
-        navigate(routes.mainPage());
+        navigate(routes.chat);
       } catch (error) {
         setSubmitting(false);
         if (error.isAxiosError && error.response.status === 401) {
           setAuthFailed(true);
-          navigate(routes.signInPage());
+          navigate(routes.signIn);
           return;
         }
         console.log('Boom!');

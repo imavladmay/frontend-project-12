@@ -1,8 +1,6 @@
 /* eslint-disable no-param-reassign */
-import { createSlice, createEntityAdapter } from '@reduxjs/toolkit';
-import fetchData from './fetchData.js';
-
-const messagesAdapter = createEntityAdapter();
+import { createSlice } from '@reduxjs/toolkit';
+import fetchDataApi from '../../api/fetchData';
 
 const initialState = {
   messages: [],
@@ -12,12 +10,14 @@ const messagesSlice = createSlice({
   name: 'messages',
   initialState,
   reducers: {
-    addMessage: messagesAdapter.addOne,
+    addMessage: (state, { payload }) => {
+      state.messages.push(payload);
+    },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchData.fulfilled, (state, action) => {
-        state.messages = action.payload.messages;
+      .addCase(fetchDataApi.fulfilled, (state, { payload }) => {
+        state.messages = payload.messages;
       });
   },
 });
