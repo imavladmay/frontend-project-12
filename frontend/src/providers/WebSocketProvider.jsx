@@ -1,22 +1,15 @@
 import {
   createContext,
   useContext,
-  useMemo,
 } from 'react';
 
 const WebSocketContext = createContext({});
 
-const WebSocketProvider = ({ api, children }) => {
-  const { addMessageApi } = api;
-
-  const memoizedValue = useMemo(() => ({ addMessageApi }), [addMessageApi]);
-
-  return (
-    <WebSocketContext.Provider value={memoizedValue}>
-      {children}
-    </WebSocketContext.Provider>
-  );
-};
+const WebSocketProvider = ({ api, children }) => (
+  <WebSocketContext.Provider value={api}>
+    {children}
+  </WebSocketContext.Provider>
+);
 
 const useWebSocket = () => useContext(WebSocketContext);
 

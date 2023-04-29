@@ -21,13 +21,13 @@ const initApp = async () => {
 
   const root = ReactDOM.createRoot(document.getElementById('chat'));
   return root.render(
-    <WebSocketProvider api={chatApi(socket)}>
-      <I18nextProvider i18n={i18n}>
-        <Provider store={store}>
-          <App />
-        </Provider>
-      </I18nextProvider>
-    </WebSocketProvider>,
+    <I18nextProvider i18n={i18n}>
+      <Provider store={store}>
+        <WebSocketProvider api={chatApi(socket)}>
+          <App socket={socket} />
+        </WebSocketProvider>
+      </Provider>
+    </I18nextProvider>,
   );
 };
 
