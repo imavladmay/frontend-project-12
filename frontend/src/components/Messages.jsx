@@ -18,8 +18,7 @@ const Messages = () => {
   const { messages } = useSelector((state) => state.messages);
 
   const currentChannelName = channels.length !== 0 ? channels.find((el) => el.id === currentChannelId).name : '';
-  const messagesInCurrentChannel = messages.filter((el) => el.channelId === currentChannelId)
-    .length;
+  const messagesInCurrentChannel = messages.filter((el) => el.channelId === currentChannelId);
 
   useEffect(() => {
     inputRef.current.focus();
@@ -32,6 +31,7 @@ const Messages = () => {
     validationSchema: chatSchema,
     onSubmit: (values, { setSubmitting }) => {
       try {
+        console.log(currentChannelId);
         setSubmitting(true);
         const { body } = values;
         const newMessage = {
@@ -56,10 +56,10 @@ const Messages = () => {
           <p className="m-0">
             <b>{`# ${currentChannelName}`}</b>
           </p>
-          <span className="text-muted">{t('chat.messageCount', { count: messagesInCurrentChannel })}</span>
+          <span className="text-muted">{t('chat.messageCount', { count: messagesInCurrentChannel.length })}</span>
         </div>
         <div id="messages-box" className="chat-messages overflow-auto px-5">
-          {messagesInCurrentChannel !== 0 ? messages.map((el) => (
+          {messagesInCurrentChannel.length !== 0 ? messagesInCurrentChannel.map((el) => (
             <div className="text-break mb-2" key={el.id}>
               <b>{el.username}</b>
               {`: ${el.body}`}

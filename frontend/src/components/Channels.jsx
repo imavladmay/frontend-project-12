@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { openModal } from '../store/entities/modalsSlice';
+import { switchChannel } from '../store/entities/channelsSlice';
 
 const Channels = () => {
   const { t } = useTranslation();
@@ -40,6 +41,7 @@ const Channels = () => {
         {channels.map((ch) => (
           <li className="nav-item w-100" key={ch.id}>
             <Button
+              onClick={() => dispatch(switchChannel(ch.id))}
               variant={ch.id === currentChannelId ? 'secondary' : 'light'}
               className="w-100 rounded-0 text-start btn"
             >
