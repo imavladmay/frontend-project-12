@@ -12,7 +12,7 @@ const channelsSlice = createSlice({
   initialState,
   reducers: {
     addChannel: (state, { payload }) => {
-      state.messages.push(payload);
+      state.channels.push(payload);
     },
   },
   extraReducers: (builder) => {

@@ -9,11 +9,11 @@ const PageNotFound = () => {
 
   return (
     <div className="text-center">
-      <img src={notFoundImg} alt={t('notFound')} className="img-fluid h-25" />
-      <h1 className="h4 text-muted">{t('notFound')}</h1>
+      <img src={notFoundImg} alt={t('notFound.notFound')} className="img-fluid h-25" />
+      <h1 className="h4 text-muted">{t('notFound.notFound')}</h1>
       <p className="text-muted">
-        {t('redirect')}
-        <Link to="/">{t('mainPage')}</Link>
+        {t('notFound.redirect')}
+        <Link to="/">{t('notFound.mainPage')}</Link>
       </p>
     </div>
   );

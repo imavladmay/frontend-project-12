@@ -9,6 +9,7 @@ import PrivateRoute from './PrivateRoute';
 import { routes } from '../utils/routes';
 import AuthProvider from '../providers/AuthProvider';
 import { addMessage } from '../store/entities/messagesSlice';
+import { addChannel } from '../store/entities/channelsSlice';
 
 const App = ({ socket }) => {
   const dispatch = useDispatch();
@@ -16,6 +17,9 @@ const App = ({ socket }) => {
   useEffect(() => {
     socket.on('newMessage', (message) => {
       dispatch(addMessage(message));
+    });
+    socket.on('newChannel', (channel) => {
+      dispatch(addChannel(channel));
     });
   });
 

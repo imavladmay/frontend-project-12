@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import fetchDataApi from '../api/fetchData';
 import Channels from '../components/Channels';
 import Messages from '../components/Messages';
+import ModalAddChannel from '../components/modals/addChannel';
 
 const ChatPage = () => {
   const { token } = JSON.parse(localStorage.getItem('userData'));
@@ -21,6 +22,7 @@ const ChatPage = () => {
         <Channels />
         <Messages />
       </Row>
+      <ModalAddChannel />
     </Container>
   );
 };

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import {
@@ -22,15 +22,20 @@ const SignInPage = () => {
   const auth = useAuth();
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const inputRef = useRef(null);
 
   const [authFailed, setAuthFailed] = useState(false);
+
+  useEffect(() => {
+    inputRef.current.focus();
+  }, []);
 
   const formik = useFormik({
     initialValues: {
       username: '',
       password: '',
     },
-    validationSchema: signInSchema(t('errors.required')),
+    validationSchema: signInSchema(t('signIn.required')),
     onSubmit: async (values, { setSubmitting }) => {
       try {
         setSubmitting(true);
@@ -65,27 +70,28 @@ const SignInPage = () => {
                 <Image
                   src={signInImg}
                   className="rounded-circle"
-                  alt={t('enter')}
+                  alt={t('signIn.enter')}
                 />
               </Col>
               <Form
                 onSubmit={formik.handleSubmit}
                 className="col-12 col-md-6 mt-3 mt-mb-0"
               >
-                <h1 className="text-center mb-4">{t('enter')}</h1>
+                <h1 className="text-center mb-4">{t('signIn.enter')}</h1>
                 <Form.Floating className="mb-3">
                   <Form.Control
                     name="username"
                     autoComplete="username"
                     required
-                    placeholder={t('placeholders.nickname')}
+                    placeholder={t('signIn.nickname')}
                     id="username"
                     onChange={formik.handleChange}
                     value={formik.values.username}
                     isInvalid={authFailed}
+                    ref={inputRef}
                   />
                   <Form.Label htmlFor="username">
-                    {t('placeholders.nickname')}
+                    {t('signIn.nickname')}
                   </Form.Label>
                 </Form.Floating>
                 <Form.Floating className="mb-4">
@@ -93,7 +99,7 @@ const SignInPage = () => {
                     name="password"
                     autoComplete="current-password"
                     required
-                    placeholder={t('placeholders.password')}
+                    placeholder={t('signIn.password')}
                     type="password"
                     id="password"
                     onChange={formik.handleChange}
@@ -101,10 +107,10 @@ const SignInPage = () => {
                     isInvalid={authFailed}
                   />
                   <Form.Label htmlFor="password">
-                    {t('placeholders.password')}
+                    {t('signIn.password')}
                   </Form.Label>
                   <Form.Control.Feedback type="invalid" tooltip>
-                    {t('invalidData')}
+                    {t('signIn.wrongData')}
                   </Form.Control.Feedback>
                 </Form.Floating>
                 <Button
@@ -112,7 +118,7 @@ const SignInPage = () => {
                   variant="outline-primary"
                   className="w-100 mb-3"
                 >
-                  {t('enter')}
+                  {t('signIn.enter')}
                 </Button>
               </Form>
             </Card.Body>
