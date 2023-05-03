@@ -31,7 +31,6 @@ const Messages = () => {
     validationSchema: chatSchema,
     onSubmit: (values, { setSubmitting }) => {
       try {
-        console.log(currentChannelId);
         setSubmitting(true);
         const { body } = values;
         const newMessage = {

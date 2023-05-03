@@ -26,6 +26,11 @@ export default {
       uniqueName: 'Должно быть уникальным',
       cancel: 'Отменить',
       submit: 'Отправить',
+      channelControl: 'Управление каналом',
+      remove: 'Удалить',
+      rename: 'Переименовать',
+      removeChannel: 'Удалить канал',
+      confirmation: 'Уверены?',
     },
     notFound: {
       notFound: 'Страница не найдена',

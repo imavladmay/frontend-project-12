@@ -1,5 +1,10 @@
 import React from 'react';
-import { Col, Button } from 'react-bootstrap';
+import {
+  Col,
+  Button,
+  Dropdown,
+  ButtonGroup,
+} from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -19,7 +24,7 @@ const Channels = () => {
         <Button
           variant=""
           className="p-0 text-primary btn btn-group-vertical"
-          onClick={() => dispatch(openModal())}
+          onClick={() => dispatch(openModal({ type: 'add', target: null }))}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -40,14 +45,41 @@ const Channels = () => {
       >
         {channels.map((ch) => (
           <li className="nav-item w-100" key={ch.id}>
-            <Button
-              onClick={() => dispatch(switchChannel(ch.id))}
-              variant={ch.id === currentChannelId ? 'secondary' : 'light'}
-              className="w-100 rounded-0 text-start btn"
-            >
-              <span className="me-1">#</span>
-              {ch.name}
-            </Button>
+            {ch.removable ? (
+              <Dropdown as={ButtonGroup} className="d-flex">
+                <Button
+                  onClick={() => dispatch(switchChannel(ch.id))}
+                  variant={ch.id === currentChannelId ? 'secondary' : 'light'}
+                  className="w-100 rounded-0 text-start text-truncate"
+                >
+                  <span className="me-1">#</span>
+                  {ch.name}
+                </Button>
+                <Dropdown.Toggle
+                  split
+                  className="flex-grow-0"
+                  variant={ch.id === currentChannelId ? 'secondary' : 'light'}
+                >
+                  <span className="visually-hidden">{t('modals.channelControl')}</span>
+                </Dropdown.Toggle>
+                <Dropdown.Menu>
+                  <Dropdown.Item
+                    onClick={() => dispatch(openModal({ type: 'remove', target: ch.id }))}
+                  >
+                    {t('modals.remove')}
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+            ) : (
+              <Button
+                onClick={() => dispatch(switchChannel(ch.id))}
+                variant={ch.id === currentChannelId ? 'secondary' : 'light'}
+                className="w-100 rounded-0 text-start"
+              >
+                <span className="me-1">#</span>
+                {ch.name}
+              </Button>
+            )}
           </li>
         ))}
       </ul>

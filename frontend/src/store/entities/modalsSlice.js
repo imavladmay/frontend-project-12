@@ -4,6 +4,8 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   modals: {
     isShown: false,
+    type: '',
+    target: null,
   },
 };
 
@@ -11,8 +13,12 @@ const modalsSlice = createSlice({
   name: 'modals',
   initialState,
   reducers: {
-    openModal: (state) => {
+    openModal: (state, { payload }) => {
+      const { type, target } = payload;
+
       state.modals.isShown = true;
+      state.modals.type = type;
+      state.modals.target = target;
     },
     closeModal: (state) => {
       state.modals.isShown = false;

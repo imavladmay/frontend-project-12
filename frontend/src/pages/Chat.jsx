@@ -1,16 +1,25 @@
 import React, { useEffect } from 'react';
 import { Container, Row } from 'react-bootstrap';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import fetchDataApi from '../api/fetchData';
 import Channels from '../components/Channels';
 import Messages from '../components/Messages';
-import ModalAddChannel from '../components/modals/addChannel';
+import getModal from '../components/modals/index';
 
 const ChatPage = () => {
   const { token } = JSON.parse(localStorage.getItem('userData'));
+  const { modals } = useSelector((state) => state.modals);
 
   const dispatch = useDispatch();
+
+  const renderModal = () => {
+    if (modals.type === '') {
+      return null;
+    }
+    const Modal = getModal(modals.type);
+    return <Modal />;
+  };
 
   useEffect(() => {
     dispatch(fetchDataApi(token));
@@ -22,7 +31,7 @@ const ChatPage = () => {
         <Channels />
         <Messages />
       </Row>
-      <ModalAddChannel />
+      {renderModal()}
     </Container>
   );
 };

@@ -5,7 +5,7 @@ import { io } from 'socket.io-client';
 import i18next from 'i18next';
 
 import store from './store/index';
-import App from './components/App.jsx';
+import App from './App';
 import resources from './locales/index.js';
 import chatApi from './api/chat.js';
 import WebSocketProvider from './providers/WebSocketProvider.jsx';

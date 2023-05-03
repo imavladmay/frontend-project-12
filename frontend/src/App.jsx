@@ -2,14 +2,14 @@ import React, { useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
-import NotFound from '../pages/NotFound';
-import SignIn from '../pages/SignIn';
-import Chat from '../pages/Chat';
-import PrivateRoute from './PrivateRoute';
-import { routes } from '../utils/routes';
-import AuthProvider from '../providers/AuthProvider';
-import { addMessage } from '../store/entities/messagesSlice';
-import { addChannel } from '../store/entities/channelsSlice';
+import NotFound from './pages/NotFound';
+import SignIn from './pages/SignIn';
+import Chat from './pages/Chat';
+import PrivateRoute from './components/PrivateRoute';
+import { routes } from './utils/routes';
+import AuthProvider from './providers/AuthProvider';
+import { addMessage } from './store/entities/messagesSlice';
+import { addChannel, switchChannel, removeChannel } from './store/entities/channelsSlice';
 
 const App = ({ socket }) => {
   const dispatch = useDispatch();
@@ -20,6 +20,10 @@ const App = ({ socket }) => {
     });
     socket.on('newChannel', (channel) => {
       dispatch(addChannel(channel));
+      dispatch(switchChannel(channel.id));
+    });
+    socket.on('removeChannel', (channel) => {
+      dispatch(removeChannel(channel));
     });
   });
 

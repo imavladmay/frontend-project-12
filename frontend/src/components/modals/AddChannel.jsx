@@ -8,7 +8,7 @@ import { closeModal } from '../../store/entities/modalsSlice';
 import { addChannelSchema } from '../../utils/validation';
 import { useWebSocket } from '../../providers/WebSocketProvider';
 
-const ModalAddChannel = () => {
+const AddChannel = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { addChannelApi } = useWebSocket();
@@ -82,4 +82,4 @@ const ModalAddChannel = () => {
   );
 };
 
-export default ModalAddChannel;
+export default AddChannel;
