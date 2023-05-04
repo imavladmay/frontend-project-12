@@ -68,6 +68,11 @@ const Channels = () => {
                   >
                     {t('modals.remove')}
                   </Dropdown.Item>
+                  <Dropdown.Item
+                    onClick={() => dispatch(openModal({ type: 'rename', target: ch.id }))}
+                  >
+                    {t('modals.rename')}
+                  </Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
             ) : (

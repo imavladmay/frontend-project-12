@@ -49,9 +49,7 @@ const SignInPage = () => {
         if (error.isAxiosError && error.response.status === 401) {
           setAuthFailed(true);
           navigate(routes.signIn);
-          return;
         }
-        console.log('Boom!');
       }
     },
   });

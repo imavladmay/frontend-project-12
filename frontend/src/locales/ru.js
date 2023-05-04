@@ -31,6 +31,7 @@ export default {
       rename: 'Переименовать',
       removeChannel: 'Удалить канал',
       confirmation: 'Уверены?',
+      renameChannel: 'Переименовать канал',
     },
     notFound: {
       notFound: 'Страница не найдена',

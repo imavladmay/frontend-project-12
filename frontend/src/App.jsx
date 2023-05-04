@@ -9,7 +9,12 @@ import PrivateRoute from './components/PrivateRoute';
 import { routes } from './utils/routes';
 import AuthProvider from './providers/AuthProvider';
 import { addMessage } from './store/entities/messagesSlice';
-import { addChannel, switchChannel, removeChannel } from './store/entities/channelsSlice';
+import {
+  addChannel,
+  switchChannel,
+  removeChannel,
+  renameChannel,
+} from './store/entities/channelsSlice';
 
 const App = ({ socket }) => {
   const dispatch = useDispatch();
@@ -24,6 +29,9 @@ const App = ({ socket }) => {
     });
     socket.on('removeChannel', (channel) => {
       dispatch(removeChannel(channel));
+    });
+    socket.on('renameChannel', (channel) => {
+      dispatch(renameChannel(channel));
     });
   });
 
