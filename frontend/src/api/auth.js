@@ -2,11 +2,16 @@ import axios from 'axios';
 
 import { apiRoutes } from '../utils/routes';
 
-const authApi = async (values) => {
+export const signInApi = async (values) => {
   const response = await axios
-    .post(apiRoutes.login, { username: values.username, password: values.password });
+    .post(apiRoutes.signIn, { username: values.username, password: values.password });
 
   return response.data;
 };
 
-export default authApi;
+export const signUpApi = async (values) => {
+  const response = await axios
+    .post(apiRoutes.signUp, { username: values.username, password: values.password });
+
+  return response.data;
+};

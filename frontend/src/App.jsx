@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import NotFound from './pages/NotFound';
 import SignIn from './pages/SignIn';
 import Chat from './pages/Chat';
+import SignUp from './pages/SignUp';
 import PrivateRoute from './components/PrivateRoute';
 import { routes } from './utils/routes';
 import AuthProvider from './providers/AuthProvider';
@@ -42,6 +43,7 @@ const App = ({ socket }) => {
           <Routes>
             <Route path={routes.chat} element={<PrivateRoute><Chat /></PrivateRoute>} />
             <Route path={routes.signIn} element={<SignIn />} />
+            <Route path={routes.signUp} element={<SignUp />} />
             <Route path={routes.notFound} element={<NotFound />} />
           </Routes>
         </BrowserRouter>

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import {
   Container,
@@ -13,7 +13,7 @@ import {
 import { useFormik } from 'formik';
 
 import { useAuth } from '../providers/AuthProvider';
-import authApi from '../api/auth';
+import { signInApi } from '../api/auth';
 import { routes } from '../utils/routes';
 import { signInSchema } from '../utils/validation';
 import signInImg from '../assets/signIn.jpg';
@@ -39,16 +39,13 @@ const SignInPage = () => {
     onSubmit: async (values, { setSubmitting }) => {
       try {
         setSubmitting(true);
-        const token = await authApi(values);
-        localStorage.setItem('userData', JSON.stringify(token));
+        auth.logIn(await signInApi(values));
         setAuthFailed(false);
-        auth.logIn();
         navigate(routes.chat);
       } catch (error) {
         setSubmitting(false);
         if (error.isAxiosError && error.response.status === 401) {
           setAuthFailed(true);
-          navigate(routes.signIn);
         }
       }
     },
@@ -115,11 +112,18 @@ const SignInPage = () => {
                   type="submit"
                   variant="outline-primary"
                   className="w-100 mb-3"
+                  disabled={formik.isSubmitting}
                 >
                   {t('signIn.enter')}
                 </Button>
               </Form>
             </Card.Body>
+            <Card.Footer className="p-4">
+              <div className="text-center">
+                <span>{t('signIn.noAccount')}</span>
+                <Link to={routes.signUp}>{t('signIn.registration')}</Link>
+              </div>
+            </Card.Footer>
           </Card>
         </Col>
       </Row>

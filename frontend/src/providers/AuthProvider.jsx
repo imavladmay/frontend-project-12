@@ -10,7 +10,10 @@ const AuthContext = createContext({});
 const AuthProvider = ({ children }) => {
   const [loggedIn, setLoggedIn] = useState(false);
 
-  const logIn = () => setLoggedIn(true);
+  const logIn = (token) => {
+    localStorage.setItem('userData', JSON.stringify(token));
+    setLoggedIn(true);
+  };
 
   const logOut = () => {
     localStorage.removeItem('userData');

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Provider } from 'react-redux';
+import { Provider as StoreProvider } from 'react-redux';
 import { I18nextProvider, initReactI18next } from 'react-i18next';
 import { io } from 'socket.io-client';
 import i18next from 'i18next';
@@ -23,11 +23,11 @@ const init = async () => {
 
   return (
     <I18nextProvider i18n={i18n}>
-      <Provider store={store}>
+      <StoreProvider store={store}>
         <WebSocketProvider api={chatApi(socket)}>
           <App socket={socket} />
         </WebSocketProvider>
-      </Provider>
+      </StoreProvider>
     </I18nextProvider>
   );
 };
