@@ -11,17 +11,18 @@ import {
   Form,
 } from 'react-bootstrap';
 import { useFormik } from 'formik';
+import { useDispatch } from 'react-redux';
 
-import { useAuth } from '../providers/AuthProvider';
 import { signInApi } from '../api/auth';
 import { routes } from '../utils/routes';
 import { signInSchema } from '../utils/validation';
 import signInImg from '../assets/signIn.jpg';
+import { logIn } from '../store/entities/authSlice';
 
 const SignInPage = () => {
-  const auth = useAuth();
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const dispatch = useDispatch();
   const inputRef = useRef(null);
 
   const [authFailed, setAuthFailed] = useState(false);
@@ -39,7 +40,8 @@ const SignInPage = () => {
     onSubmit: async (values, { setSubmitting }) => {
       try {
         setSubmitting(true);
-        auth.logIn(await signInApi(values));
+        const token = await signInApi(values);
+        dispatch(logIn(token));
         setAuthFailed(false);
         navigate(routes.chat);
       } catch (error) {

@@ -7,8 +7,8 @@ import SignIn from './pages/SignIn';
 import Chat from './pages/Chat';
 import SignUp from './pages/SignUp';
 import PrivateRoute from './components/PrivateRoute';
+import MyNavbar from './components/Navbar';
 import { routes } from './utils/routes';
-import AuthProvider from './providers/AuthProvider';
 import { addMessage } from './store/entities/messagesSlice';
 import {
   addChannel,
@@ -37,18 +37,17 @@ const App = ({ socket }) => {
   });
 
   return (
-    <AuthProvider>
-      <div className="d-flex flex-column h-100">
-        <BrowserRouter>
-          <Routes>
-            <Route path={routes.chat} element={<PrivateRoute><Chat /></PrivateRoute>} />
-            <Route path={routes.signIn} element={<SignIn />} />
-            <Route path={routes.signUp} element={<SignUp />} />
-            <Route path={routes.notFound} element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
-      </div>
-    </AuthProvider>
+    <div className="d-flex flex-column h-100">
+      <BrowserRouter>
+        <MyNavbar />
+        <Routes>
+          <Route path={routes.chat} element={<PrivateRoute><Chat /></PrivateRoute>} />
+          <Route path={routes.signIn} element={<SignIn />} />
+          <Route path={routes.signUp} element={<SignUp />} />
+          <Route path={routes.notFound} element={<NotFound />} />
+        </Routes>
+      </BrowserRouter>
+    </div>
   );
 };
 

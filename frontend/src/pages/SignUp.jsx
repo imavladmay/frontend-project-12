@@ -11,17 +11,18 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
+import { useDispatch } from 'react-redux';
 
 import signUpImg from '../assets/signUp.jpg';
 import { signUpSchema } from '../utils/validation';
-import { useAuth } from '../providers/AuthProvider';
 import { signUpApi } from '../api/auth';
 import { routes } from '../utils/routes';
+import { logIn } from '../store/entities/authSlice';
 
 const SignUp = () => {
   const { t } = useTranslation();
-  const auth = useAuth();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const inputRef = useRef();
 
   const [signUpFailed, setSignUpFailed] = useState(false);
@@ -45,7 +46,8 @@ const SignUp = () => {
     onSubmit: async (values, { setSubmitting }) => {
       try {
         setSubmitting(true);
-        auth.logIn(await signUpApi(values));
+        const token = await signUpApi(values);
+        dispatch(logIn(token));
         setSignUpFailed(false);
         navigate(routes.chat);
       } catch (error) {

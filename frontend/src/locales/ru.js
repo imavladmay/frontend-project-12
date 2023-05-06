@@ -1,5 +1,7 @@
 export default {
   translation: {
+    hexlet: 'Hexlet Chat',
+    logOut: 'Выйти',
     signIn: {
       enter: 'Войти',
       nickname: 'Ваш ник',
