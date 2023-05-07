@@ -3,6 +3,7 @@ import { Provider as StoreProvider } from 'react-redux';
 import { I18nextProvider, initReactI18next } from 'react-i18next';
 import { io } from 'socket.io-client';
 import i18next from 'i18next';
+import filter from 'leo-profanity';
 
 import store from './store/index';
 import App from './App';
@@ -20,6 +21,9 @@ const init = async () => {
     resources,
     fallbackLng: 'ru',
   });
+
+  filter.add(filter.getDictionary('ru'));
+  filter.add(filter.getDictionary('en'));
 
   return (
     <I18nextProvider i18n={i18n}>

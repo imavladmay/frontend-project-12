@@ -7,6 +7,7 @@ import {
 } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
+import filter from 'leo-profanity';
 
 import { openModal } from '../store/entities/modalsSlice';
 import { switchChannel } from '../store/entities/channelsSlice';
@@ -53,7 +54,7 @@ const Channels = () => {
                   className="w-100 rounded-0 text-start text-truncate"
                 >
                   <span className="me-1">#</span>
-                  {ch.name}
+                  {filter.clean(ch.name)}
                 </Button>
                 <Dropdown.Toggle
                   split
