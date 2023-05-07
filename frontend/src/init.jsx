@@ -1,6 +1,7 @@
 import React from 'react';
 import { Provider as StoreProvider } from 'react-redux';
 import { I18nextProvider, initReactI18next } from 'react-i18next';
+import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
 import { io } from 'socket.io-client';
 import i18next from 'i18next';
 import filter from 'leo-profanity';
@@ -11,6 +12,15 @@ import resources from './locales/index.js';
 import chatApi from './api/chat.js';
 import WebSocketProvider from './providers/WebSocketProvider.jsx';
 import './index.scss';
+
+const rollbarConfig = {
+  accessToken: process.env.ROLLBAR_TOKEN,
+  environment: 'production',
+  addErrorContext: true,
+  captureUncaught: true,
+  captureUnhandledRejections: true,
+  captureIp: true,
+};
 
 const init = async () => {
   const socket = io();
@@ -26,13 +36,17 @@ const init = async () => {
   filter.add(filter.getDictionary('en'));
 
   return (
-    <I18nextProvider i18n={i18n}>
-      <StoreProvider store={store}>
-        <WebSocketProvider api={chatApi(socket)}>
-          <App socket={socket} />
-        </WebSocketProvider>
-      </StoreProvider>
-    </I18nextProvider>
+    <RollbarProvider config={rollbarConfig}>
+      <I18nextProvider i18n={i18n}>
+        <StoreProvider store={store}>
+          <WebSocketProvider api={chatApi(socket)}>
+            <ErrorBoundary>
+              <App socket={socket} />
+            </ErrorBoundary>
+          </WebSocketProvider>
+        </StoreProvider>
+      </I18nextProvider>
+    </RollbarProvider>
   );
 };
 
