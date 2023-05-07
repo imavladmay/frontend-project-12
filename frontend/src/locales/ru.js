@@ -15,7 +15,7 @@ export default {
     channels: {
       channels: 'Каналы',
       created: 'Канал создан',
-      removed: 'Канал удален',
+      removed: 'Канал удалён',
       renamed: 'Канал переименован',
     },
     chat: {
