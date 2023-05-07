@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import { ToastContainer } from 'react-toastify';
 
 import NotFound from './pages/NotFound';
 import SignIn from './pages/SignIn';
@@ -46,6 +47,7 @@ const App = ({ socket }) => {
           <Route path={routes.signUp} element={<SignUp />} />
           <Route path={routes.notFound} element={<NotFound />} />
         </Routes>
+        <ToastContainer />
       </BrowserRouter>
     </div>
   );

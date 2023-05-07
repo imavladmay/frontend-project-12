@@ -12,6 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
 import { useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
 
 import signUpImg from '../assets/signUp.jpg';
 import { signUpSchema } from '../utils/validation';
@@ -54,6 +55,8 @@ const SignUp = () => {
         setSubmitting(false);
         if (error.isAxiosError && error.response.status === 409) {
           setSignUpFailed(true);
+        } else {
+          toast.error(t('networkError'));
         }
       }
     },

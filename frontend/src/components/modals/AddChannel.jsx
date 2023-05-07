@@ -3,6 +3,7 @@ import { Modal, Form, Button } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
+import { toast } from 'react-toastify';
 
 import { closeModal } from '../../store/entities/modalsSlice';
 import { addChannelSchema } from '../../utils/validation';
@@ -37,6 +38,7 @@ const AddChannel = () => {
         addChannelApi({ name });
         formik.resetForm();
         dispatch(closeModal());
+        toast.success(t('channels.created'));
       } catch (error) {
         setSubmitting(false);
       }

@@ -2,6 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Modal, Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 
 import { closeModal } from '../../store/entities/modalsSlice';
 import { useWebSocket } from '../../providers/WebSocketProvider';
@@ -16,6 +17,7 @@ const RemoveChannel = () => {
   const handleRemove = () => {
     removeChannelApi({ id: modals.target });
     dispatch(closeModal());
+    toast.success(t('channels.removed'));
   };
 
   return (

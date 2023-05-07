@@ -2,6 +2,7 @@ export default {
   translation: {
     hexlet: 'Hexlet Chat',
     logOut: 'Выйти',
+    networkError: 'Ошибка соединения',
     signIn: {
       enter: 'Войти',
       nickname: 'Ваш ник',
@@ -13,6 +14,9 @@ export default {
     },
     channels: {
       channels: 'Каналы',
+      created: 'Канал создан',
+      removed: 'Канал удален',
+      renamed: 'Канал переименован',
     },
     chat: {
       messageCount_one: '{{count}} сообщение',

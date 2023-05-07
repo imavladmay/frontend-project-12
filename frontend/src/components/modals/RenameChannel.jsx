@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useSelector, useDispatch } from 'react-redux';
 import { Modal, Form, Button } from 'react-bootstrap';
 import { useFormik } from 'formik';
+import { toast } from 'react-toastify';
 
 import { addChannelSchema } from '../../utils/validation';
 import { useWebSocket } from '../../providers/WebSocketProvider';
@@ -37,6 +38,7 @@ const RenameChannel = () => {
         const { name } = values;
         renameChannelApi({ id: modals.target, name });
         dispatch(closeModal());
+        toast.success(t('channels.renamed'));
       } catch (error) {
         setSubmitting(false);
       }

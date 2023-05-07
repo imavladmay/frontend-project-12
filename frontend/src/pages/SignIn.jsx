@@ -12,6 +12,7 @@ import {
 } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import { useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
 
 import { signInApi } from '../api/auth';
 import { routes } from '../utils/routes';
@@ -48,6 +49,8 @@ const SignInPage = () => {
         setSubmitting(false);
         if (error.isAxiosError && error.response.status === 401) {
           setAuthFailed(true);
+        } else {
+          toast.error(t('networkError'));
         }
       }
     },
