@@ -1,4 +1,17 @@
-### Hexlet tests and linter status:
+# Slack чат
+
 [![Actions Status](https://github.com/imavladmay/frontend-project-12/workflows/hexlet-check/badge.svg)](https://github.com/imavladmay/frontend-project-12/actions)
 
-https://slack-chat-production.up.railway.app/
+### Описание:
+
+Одностраничное real-time приложение с полноценной аутентификацией и авторизацией. В приложении доступны два канала по умолчанию, а также есть возможность создавать, переименовывать или удалять дополнительные каналы. Приложение реагирует на все действия пользователя всплывающими уведомлениями, информирующими о произведенных действиях. Также приложение осуществляет фильтрацию нецензурной лексики в сообщениях и названиях созданных каналов.
+
+Ссылка на [приложение](https://slack-chat-production.up.railway.app/)
+
+### Инструкция по локальному развертыванию:
+
+1. Запустите терминал и склонируйте репозиторий в вашу домашнюю директорию
+   `git clone https://github.com/imavladmay/slack-chat.git`
+2. Перейдите в склонированный репозиторий `cd slack-chat`
+3. Выполните команду `make install`
+4. Для запуска приложения в режиме разработки на localhost:3000 выполните команду `make start`
