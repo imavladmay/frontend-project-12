@@ -22,6 +22,8 @@ const modalsSlice = createSlice({
     },
     closeModal: (state) => {
       state.modals.isShown = false;
+      state.modals.type = '';
+      state.modals.target = null;
     },
   },
 });

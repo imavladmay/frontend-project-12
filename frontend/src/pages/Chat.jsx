@@ -8,7 +8,7 @@ import Messages from '../components/Messages';
 import getModal from '../components/modals/index';
 
 const ChatPage = () => {
-  const { token } = JSON.parse(localStorage.getItem('userData'));
+  const { auth } = useSelector((state) => state.auth);
   const { modals } = useSelector((state) => state.modals);
 
   const dispatch = useDispatch();
@@ -22,8 +22,8 @@ const ChatPage = () => {
   };
 
   useEffect(() => {
-    dispatch(fetchDataApi(token));
-  }, [dispatch, token]);
+    dispatch(fetchDataApi(auth.token));
+  }, [dispatch, auth.token]);
 
   return (
     <Container className="h-100 my-4 overflow-hidden rounded shadow">

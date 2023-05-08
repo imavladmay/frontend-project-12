@@ -14,21 +14,25 @@ const RemoveChannel = () => {
 
   const { modals } = useSelector((state) => state.modals);
 
-  const handleRemove = () => {
-    removeChannelApi({ id: modals.target });
+  const handleClose = () => {
+    dispatch(closeModal());
+  };
+
+  const handleRemove = async () => {
+    await removeChannelApi({ id: modals.target });
     dispatch(closeModal());
     toast.success(t('channels.removed'));
   };
 
   return (
     <Modal show={modals.isShown} centered>
-      <Modal.Header closeButton onHide={() => dispatch(closeModal())}>
+      <Modal.Header closeButton onHide={handleClose}>
         <Modal.Title>{t('modals.removeChannel')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <p className="lead">{t('modals.confirmation')}</p>
         <div className="d-flex justify-content-end">
-          <Button onClick={() => dispatch(closeModal())} className="me-2" variant="secondary">
+          <Button onClick={handleClose} className="me-2" variant="secondary">
             {t('modals.cancel')}
           </Button>
           <Button onClick={handleRemove} type="submit" variant="danger">

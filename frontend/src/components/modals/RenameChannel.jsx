@@ -23,8 +23,13 @@ const RenameChannel = () => {
   useEffect(() => {
     if (inputRef.current) {
       inputRef.current.focus();
+      inputRef.current.select();
     }
-  });
+  }, []);
+
+  const handleClose = () => {
+    dispatch(closeModal());
+  };
 
   const formik = useFormik({
     initialValues: {
@@ -32,23 +37,18 @@ const RenameChannel = () => {
     },
     validationSchema: addChannelSchema(channelList, t('modals.uniqueName'), t('modals.lengthParams'), t('modals.required')),
     validateOnChange: false,
-    onSubmit: (values, { setSubmitting }) => {
+    onSubmit: async (values, { setSubmitting }) => {
       try {
         setSubmitting(true);
         const { name } = values;
-        renameChannelApi({ id: modals.target, name });
-        dispatch(closeModal());
+        await renameChannelApi({ id: modals.target, name });
+        handleClose();
         toast.success(t('channels.renamed'));
       } catch (error) {
         setSubmitting(false);
       }
     },
   });
-
-  const handleClose = () => {
-    formik.resetForm();
-    dispatch(closeModal());
-  };
 
   return (
     <Modal show={modals.isShown} centered>

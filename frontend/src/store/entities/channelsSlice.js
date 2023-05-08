@@ -26,7 +26,7 @@ const channelsSlice = createSlice({
     renameChannel: (state, { payload }) => {
       const { id, name } = payload;
 
-      state.channels.find((el) => el.id === id).name = name;
+      state.channels = state.channels.map((el) => (el.id === id ? { ...el, name } : el));
     },
   },
   extraReducers: (builder) => {

@@ -21,21 +21,33 @@ import {
 const App = ({ socket }) => {
   const dispatch = useDispatch();
 
+  const handleNewMessage = (message) => {
+    dispatch(addMessage(message));
+  };
+  const handleNewChannel = (channel) => {
+    dispatch(addChannel(channel));
+    dispatch(switchChannel(channel.id));
+  };
+  const handleRemoveChannel = (channel) => {
+    dispatch(removeChannel(channel));
+  };
+  const handleRenameChannel = (channel) => {
+    dispatch(renameChannel(channel));
+  };
+
   useEffect(() => {
-    socket.on('newMessage', (message) => {
-      dispatch(addMessage(message));
-    });
-    socket.on('newChannel', (channel) => {
-      dispatch(addChannel(channel));
-      dispatch(switchChannel(channel.id));
-    });
-    socket.on('removeChannel', (channel) => {
-      dispatch(removeChannel(channel));
-    });
-    socket.on('renameChannel', (channel) => {
-      dispatch(renameChannel(channel));
-    });
-  });
+    socket.on('newMessage', handleNewMessage);
+    socket.on('newChannel', handleNewChannel);
+    socket.on('removeChannel', handleRemoveChannel);
+    socket.on('renameChannel', handleRenameChannel);
+
+    return () => {
+      socket.off('newMessage', handleNewMessage);
+      socket.off('newChannel', handleNewChannel);
+      socket.off('removeChannel', handleRemoveChannel);
+      socket.off('renameChannel', handleRenameChannel);
+    };
+  }, []);
 
   return (
     <div className="d-flex flex-column h-100">

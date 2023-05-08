@@ -23,7 +23,9 @@ const AddChannel = () => {
     if (inputRef.current) {
       inputRef.current.focus();
     }
-  });
+  }, []);
+
+  const handleClose = () => dispatch(closeModal());
 
   const formik = useFormik({
     initialValues: {
@@ -31,24 +33,18 @@ const AddChannel = () => {
     },
     validationSchema: addChannelSchema(channelList, t('modals.uniqueName'), t('modals.lengthParams'), t('modals.required')),
     validateOnChange: false,
-    onSubmit: (values, { setSubmitting }) => {
+    onSubmit: async (values, { setSubmitting }) => {
       try {
         setSubmitting(true);
         const { name } = values;
-        addChannelApi({ name });
-        formik.resetForm();
-        dispatch(closeModal());
+        await addChannelApi({ name });
+        handleClose();
         toast.success(t('channels.created'));
       } catch (error) {
         setSubmitting(false);
       }
     },
   });
-
-  const handleClose = () => {
-    formik.resetForm();
-    dispatch(closeModal());
-  };
 
   return (
     <Modal show={modals.isShown} centered>

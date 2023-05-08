@@ -18,19 +18,19 @@ const Messages = () => {
   const { channels, currentChannelId } = useSelector((state) => state.channels);
   const { messages } = useSelector((state) => state.messages);
 
-  const currentChannelName = channels.length !== 0 ? channels.find((el) => el.id === currentChannelId).name : '';
+  const currentChannelName = channels.find((el) => el.id === currentChannelId)?.name;
   const messagesInCurrentChannel = messages.filter((el) => el.channelId === currentChannelId);
 
   useEffect(() => {
     inputRef.current.focus();
-  });
+  }, []);
 
   const formik = useFormik({
     initialValues: {
       body: '',
     },
     validationSchema: chatSchema,
-    onSubmit: (values, { setSubmitting }) => {
+    onSubmit: async (values, { setSubmitting }) => {
       try {
         setSubmitting(true);
         const { body } = values;
@@ -39,7 +39,7 @@ const Messages = () => {
           channelId: currentChannelId,
           username,
         };
-        addMessageApi(newMessage);
+        await addMessageApi(newMessage);
         formik.resetForm();
       } catch (error) {
         setSubmitting(false);
