@@ -47,6 +47,7 @@ const App = ({ socket }) => {
       socket.off('removeChannel', handleRemoveChannel);
       socket.off('renameChannel', handleRenameChannel);
     };
+    // eslint-disable-next-line
   }, []);
 
   return (
