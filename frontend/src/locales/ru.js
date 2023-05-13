@@ -17,6 +17,9 @@ export default {
       created: 'Канал создан',
       removed: 'Канал удалён',
       renamed: 'Канал переименован',
+      creationError: 'Ошибка при создании канала',
+      removingError: 'Ошибка при удалении канала',
+      renamingError: 'Ошибка при переименовании канала',
     },
     chat: {
       messageCount_one: '{{count}} сообщение',

@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
-import fetchDataApi from '../../api/fetchData';
+import fetchChannels from './channelsThunk';
 
 const initialState = {
   channels: [],
@@ -31,7 +31,7 @@ const channelsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchDataApi.fulfilled, (state, { payload }) => {
+      .addCase(fetchChannels.fulfilled, (state, { payload }) => {
         state.channels = payload.channels;
         state.currentChannelId = payload.currentChannelId;
       });

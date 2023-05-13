@@ -4,7 +4,7 @@ import { Modal, Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 
-import { closeModal } from '../../store/entities/modalsSlice';
+import { closeModal } from '../../store/entities/modals/modalsSlice';
 import { useWebSocket } from '../../providers/WebSocketProvider';
 
 const RemoveChannel = () => {
@@ -19,9 +19,13 @@ const RemoveChannel = () => {
   };
 
   const handleRemove = async () => {
-    await removeChannelApi({ id: modals.target });
-    dispatch(closeModal());
-    toast.success(t('channels.removed'));
+    try {
+      await removeChannelApi({ id: modals.target });
+      dispatch(closeModal());
+      toast.success(t('channels.removed'));
+    } catch (error) {
+      toast.error(t('channels.removingError'));
+    }
   };
 
   return (

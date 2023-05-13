@@ -2,9 +2,9 @@ import React, { useEffect } from 'react';
 import { Container, Row } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 
-import fetchDataApi from '../api/fetchData';
-import Channels from '../components/Channels';
-import Messages from '../components/Messages';
+import fetchChannels from '../store/entities/channels/channelsThunk';
+import Channels from '../components/Channels/Channels';
+import Messages from '../components/Messages/Messages';
 import getModal from '../components/modals/index';
 
 const ChatPage = () => {
@@ -22,7 +22,7 @@ const ChatPage = () => {
   };
 
   useEffect(() => {
-    dispatch(fetchDataApi(auth.token));
+    dispatch(fetchChannels(auth.token));
   }, [dispatch, auth.token]);
 
   return (

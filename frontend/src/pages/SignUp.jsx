@@ -16,9 +16,8 @@ import { toast } from 'react-toastify';
 
 import signUpImg from '../assets/signUp.jpg';
 import { signUpSchema } from '../utils/validation';
-import { signUpApi } from '../api/auth';
+import { signUp } from '../store/entities/auth/authThunk';
 import { routes } from '../utils/routes';
-import { logIn } from '../store/entities/authSlice';
 
 const SignUp = () => {
   const { t } = useTranslation();
@@ -47,8 +46,7 @@ const SignUp = () => {
     onSubmit: async (values, { setSubmitting }) => {
       try {
         setSubmitting(true);
-        const token = await signUpApi(values);
-        dispatch(logIn(token));
+        await dispatch(signUp(values));
         setSignUpFailed(false);
         navigate(routes.chat);
       } catch (error) {

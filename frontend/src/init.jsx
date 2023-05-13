@@ -11,7 +11,8 @@ import App from './App';
 import resources from './locales/index.js';
 import chatApi from './api/chat.js';
 import WebSocketProvider from './providers/WebSocketProvider.jsx';
-import './index.scss';
+import WordFilterProvider from './providers/WordFilterProvider';
+import './styles/index.scss';
 
 const rollbarConfig = {
   accessToken: process.env.ROLLBAR_TOKEN,
@@ -38,13 +39,15 @@ const init = async () => {
   return (
     <RollbarProvider config={rollbarConfig}>
       <I18nextProvider i18n={i18n}>
-        <StoreProvider store={store}>
-          <WebSocketProvider api={chatApi(socket)}>
-            <ErrorBoundary>
-              <App socket={socket} />
-            </ErrorBoundary>
-          </WebSocketProvider>
-        </StoreProvider>
+        <WordFilterProvider filter={filter}>
+          <StoreProvider store={store}>
+            <WebSocketProvider api={chatApi(socket)}>
+              <ErrorBoundary>
+                <App socket={socket} />
+              </ErrorBoundary>
+            </WebSocketProvider>
+          </StoreProvider>
+        </WordFilterProvider>
       </I18nextProvider>
     </RollbarProvider>
   );

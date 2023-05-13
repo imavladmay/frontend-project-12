@@ -8,15 +8,15 @@ import SignIn from './pages/SignIn';
 import Chat from './pages/Chat';
 import SignUp from './pages/SignUp';
 import PrivateRoute from './components/PrivateRoute';
-import MyNavbar from './components/Navbar';
+import MyNavbar from './components/Navigation/Navbar';
 import { routes } from './utils/routes';
-import { addMessage } from './store/entities/messagesSlice';
+import { addMessage } from './store/entities/messages/messagesSlice';
 import {
   addChannel,
   switchChannel,
   removeChannel,
   renameChannel,
-} from './store/entities/channelsSlice';
+} from './store/entities/channels/channelsSlice';
 
 const App = ({ socket }) => {
   const dispatch = useDispatch();

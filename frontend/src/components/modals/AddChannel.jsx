@@ -5,14 +5,16 @@ import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
 import { toast } from 'react-toastify';
 
-import { closeModal } from '../../store/entities/modalsSlice';
+import { closeModal } from '../../store/entities/modals/modalsSlice';
 import { addChannelSchema } from '../../utils/validation';
 import { useWebSocket } from '../../providers/WebSocketProvider';
+import { useWordFilter } from '../../providers/WordFilterProvider';
 
 const AddChannel = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { addChannelApi } = useWebSocket();
+  const filter = useWordFilter();
   const inputRef = useRef(null);
 
   const { channels } = useSelector((state) => state.channels);
@@ -37,11 +39,12 @@ const AddChannel = () => {
       try {
         setSubmitting(true);
         const { name } = values;
-        await addChannelApi({ name });
+        await addChannelApi({ name: filter.clean(name) });
         handleClose();
         toast.success(t('channels.created'));
       } catch (error) {
         setSubmitting(false);
+        toast.error(t('channels.creationError'));
       }
     },
   });

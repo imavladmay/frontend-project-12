@@ -14,11 +14,10 @@ import { useFormik } from 'formik';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 
-import { signInApi } from '../api/auth';
+import { signIn } from '../store/entities/auth/authThunk';
 import { routes } from '../utils/routes';
 import { signInSchema } from '../utils/validation';
 import signInImg from '../assets/signIn.jpg';
-import { logIn } from '../store/entities/authSlice';
 
 const SignInPage = () => {
   const navigate = useNavigate();
@@ -41,8 +40,7 @@ const SignInPage = () => {
     onSubmit: async (values, { setSubmitting }) => {
       try {
         setSubmitting(true);
-        const token = await signInApi(values);
-        dispatch(logIn(token));
+        await dispatch(signIn(values));
         setAuthFailed(false);
         navigate(routes.chat);
       } catch (error) {

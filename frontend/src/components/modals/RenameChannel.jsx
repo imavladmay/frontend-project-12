@@ -7,12 +7,14 @@ import { toast } from 'react-toastify';
 
 import { addChannelSchema } from '../../utils/validation';
 import { useWebSocket } from '../../providers/WebSocketProvider';
-import { closeModal } from '../../store/entities/modalsSlice';
+import { useWordFilter } from '../../providers/WordFilterProvider';
+import { closeModal } from '../../store/entities/modals/modalsSlice';
 
 const RenameChannel = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { renameChannelApi } = useWebSocket();
+  const filter = useWordFilter();
   const inputRef = useRef(null);
 
   const { modals } = useSelector((state) => state.modals);
@@ -41,11 +43,12 @@ const RenameChannel = () => {
       try {
         setSubmitting(true);
         const { name } = values;
-        await renameChannelApi({ id: modals.target, name });
+        await renameChannelApi({ id: modals.target, name: filter.clean(name) });
         handleClose();
         toast.success(t('channels.renamed'));
       } catch (error) {
         setSubmitting(false);
+        toast.error(t('channels.renamingError'));
       }
     },
   });

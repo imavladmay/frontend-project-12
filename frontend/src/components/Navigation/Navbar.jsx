@@ -4,8 +4,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { routes } from '../utils/routes';
-import { logOut } from '../store/entities/authSlice';
+import { routes } from '../../utils/routes';
+import { logOut } from '../../store/entities/auth/authSlice';
 
 const MyNavbar = () => {
   const { t } = useTranslation();

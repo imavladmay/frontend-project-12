@@ -3,17 +3,18 @@ import { Col, Form, Button } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
-import filter from 'leo-profanity';
 
-import { useWebSocket } from '../providers/WebSocketProvider';
-import { chatSchema } from '../utils/validation';
+import { useWebSocket } from '../../providers/WebSocketProvider';
+import { useWordFilter } from '../../providers/WordFilterProvider';
+import { chatSchema } from '../../utils/validation';
 
 const Messages = () => {
   const { t } = useTranslation();
   const { addMessageApi } = useWebSocket();
+  const filter = useWordFilter();
   const inputRef = useRef(null);
 
-  const { username } = JSON.parse(localStorage.getItem('userData'));
+  const { auth } = useSelector((state) => state.auth);
 
   const { channels, currentChannelId } = useSelector((state) => state.channels);
   const { messages } = useSelector((state) => state.messages);
@@ -35,9 +36,9 @@ const Messages = () => {
         setSubmitting(true);
         const { body } = values;
         const newMessage = {
-          body,
+          body: filter.clean(body),
           channelId: currentChannelId,
-          username,
+          username: auth.username,
         };
         await addMessageApi(newMessage);
         formik.resetForm();
@@ -62,7 +63,7 @@ const Messages = () => {
           {messagesInCurrentChannel.length !== 0 ? messagesInCurrentChannel.map((el) => (
             <div className="text-break mb-2" key={el.id}>
               <b>{el.username}</b>
-              {`: ${filter.clean(el.body)}`}
+              {`: ${el.body}`}
             </div>
           )) : ''}
         </div>
